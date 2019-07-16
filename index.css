@@ -1,0 +1,15 @@
+
+.buttonADD {
+    background: green;
+    color: white;
+    font-size: 15pt;
+}
+.ramka {
+    border-color: brown;
+    background: #00800047;
+}
+.container{
+    background: gray;
+    width: 500px;
+    height: 500px;
+}
