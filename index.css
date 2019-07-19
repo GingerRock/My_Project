@@ -12,7 +12,54 @@
     background: gray;
     width: 500px;
     height: 500px;
+
 }
 li{
     display: flex;
+    
+}
+.colors {
+    width: 19px;
+    height: 19px;
+    margin: 5px;
+}
+.active{
+   
+    border: #007017 solid 3px;
+    width: 16px;
+    height: 16px;
+    border-color: chocolate;
+    border-radius: 2px;
+    display: block;
+}
+.A
+{
+    background: red;
+}
+.B
+{   
+    background: palevioletred;
+}
+
+.C
+{   
+    background: purple;
+}
+
+.D
+{
+    background: blue;
+}
+
+.E
+{   
+    background:yellow;
+}
+.F
+{   
+    background:turquoise;
+}
+.box{
+    display: -webkit-box;
+    
 }
