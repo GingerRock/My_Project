@@ -19,19 +19,22 @@ class Todo {
         
     }
     addNewItem() {
+        
         const container = $('.container');
         const value = this.input.val();
         console.log (value, 'value')
 
 
         const color = this.getColorClass()
+        console.log(color) 
         const idd = Math.random()*1e17
         container.append(`
-            <li id=${idd}> 
-                <input type="checkbox" id="checkbox" checked> 
-                <p class="text ${color}">${value}</p>
-                <input type="button" class="del" value="X">
-                <input type="button" class="change" value="Change"
+            <li class="asdasd ${color}" id=${idd}> 
+                <input type="checkbox" class="checkbox"> 
+                <p  class="text">${value}</p>
+                    <input type="button" class="del" value="X">
+                    <input type="button" class="change" value="&#8634"
+                
             </li>
         `)
 
@@ -39,6 +42,7 @@ class Todo {
 
         $('.del').on('click', (event) => this.deleteItem(event));
         $('.change').on('click', (event) => this.changeButtonHandler(event));
+        $('.checkbox').on('click', (event) => this.MadeItem(event));
     }
 
     getColorClass() {
@@ -60,22 +64,42 @@ class Todo {
             this.addNewItem()
         }
     }
-
-    changeButtonHandler(){
+    
+    MadeItem(event){
+        const currentLi = $(event.target).parent()
+        console.log($(event.target).parent())
+        if (currentLi.find('.checkbox').is(':checked')){
+            currentLi.find(".text").css('text-decoration', 'line-through')
+        }
+        else{
+            currentLi.find(".text").css('text-decoration', 'none')
+        }  
+        
+       
+    }
+    changeButtonHandler(){ 
+        
+        this.getColorClass();
         this.isChaging = true;
         const currentLi = $(event.target).parent()
         const value = currentLi.find('.text').text()
         this.cangingLi = currentLi;
         this.input.val(value);
-    }
+                        
+     }
     changeItem() {
         
         console.log( this.input.val(), 'значение')
         console.log(  this.cangingLi, 'поле')
         $("#orig").focus();
         $("#orig").get(0).setSelectionRange(0,0);
+        
+        console.log(this.getColorClass())
+        const DifColor = this.getColorClass()
+        this.cangingLi.attr("class",'asdasd ' + DifColor)
         const changeText= this.input.val()
         console.log(changeText)
+        
         this.cangingLi.find('.text').text(changeText)
         document.getElementById("orig").value = ""
         this.isChaging= false
@@ -83,16 +107,11 @@ class Todo {
     }
 
     
-     deleteItem(event){
+    deleteItem(event){
         console.log('delete', event)
         const id = $(event.target).parent().attr('id')
         $(`#${id}`).remove();
     }
-   usingColor()
-   {
-    this.cangingLi.find('.text').text()
-
-   } 
    
 }
  
