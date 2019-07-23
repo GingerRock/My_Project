@@ -102,3 +102,6 @@ li{
     border-style: solid;
     background: peachpuff;
 }
+ul{
+    overflow: auto;
+}
