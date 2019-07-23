@@ -1,14 +1,15 @@
 
 $(document).ready(function () {
-    const todo = new Todo(['qqq', 'www','eee']);
+    const stodo = JSON.parse(localStorage.getItem('stodo'));
+    const todo = new Todo(stodo ? stodo : []);
     $('.buttonADD').on('click', () => todo.buttonHandler());
     $('.colors').click(function() {
         $('.colors').removeClass('active')
         $(this).toggleClass('active')
         
-
     });
-    
+    todo.init();
+   
 });
 class Todo {
     constructor(list) {
@@ -18,28 +19,65 @@ class Todo {
         this.cangingLi = '';
         
     }
+
+    init(){
+        console.log(this.list)
+        if(this.list.length > 0){
+            for(var i=0;i<(this.list.length);i++){
+                let checkedd;
+                if (this.list[i].checked == true){
+                    checkedd = "checked"
+                } else {
+                    checkedd = " "
+                }
+                const container = $('.container');
+                const value = this.list[i].text;
+                const color = this.list[i].color
+                const idd = this.list[i].id
+
+                container.append(`
+                    <li class="asdasd ${color}" id=${idd}> 
+                        <input type="checkbox" class="checkbox " ${checkedd}> 
+                        <p  class="text">${value}</p>
+                            <input type="button" class="del" value="X">
+                            <input type="button" class="change" value="&#8634"
+                        
+                    </li>
+                `)
+
+                $('.del').on('click', (event) => this.deleteItem(event));
+                $('.change').on('click', (event) => this.changeButtonHandler(event));
+                $('.checkbox').on('click', (event) => this.MadeItem(event));
+                
+             
+            } 
+        }
+    }
+            
     addNewItem() {
         
         const container = $('.container');
         const value = this.input.val();
-        console.log (value, 'value')
-
-
         const color = this.getColorClass()
-        console.log(color) 
         const idd = Math.random()*1e17
         container.append(`
             <li class="asdasd ${color}" id=${idd}> 
-                <input type="checkbox" class="checkbox"> 
+                <input type="checkbox" class="checkbox" > 
                 <p  class="text">${value}</p>
                     <input type="button" class="del" value="X">
                     <input type="button" class="change" value="&#8634"
                 
             </li>
         `)
-
+        
+        this.list.push({text:value,checked:false,color:color,id:idd}) 
+        localStorage.setItem('stodo',JSON.stringify(this.list));
+        
+                
         document.getElementById("orig").value = ""
 
+       
+        
         $('.del').on('click', (event) => this.deleteItem(event));
         $('.change').on('click', (event) => this.changeButtonHandler(event));
         $('.checkbox').on('click', (event) => this.MadeItem(event));
@@ -67,7 +105,6 @@ class Todo {
     
     MadeItem(event){
         const currentLi = $(event.target).parent()
-        console.log($(event.target).parent())
         if (currentLi.find('.checkbox').is(':checked')){
             currentLi.find(".text").css('text-decoration', 'line-through')
         }
@@ -88,30 +125,29 @@ class Todo {
                         
      }
     changeItem() {
-        
-        console.log( this.input.val(), 'значение')
-        console.log(  this.cangingLi, 'поле')
         $("#orig").focus();
         $("#orig").get(0).setSelectionRange(0,0);
         
-        console.log(this.getColorClass())
         const DifColor = this.getColorClass()
         this.cangingLi.attr("class",'asdasd ' + DifColor)
         const changeText= this.input.val()
-        console.log(changeText)
         
         this.cangingLi.find('.text').text(changeText)
         document.getElementById("orig").value = ""
         this.isChaging= false
+
         
     }
 
     
     deleteItem(event){
-        console.log('delete', event)
-        const id = $(event.target).parent().attr('id')
-        $(`#${id}`).remove();
+        const id = $(event.target).parent().attr('id')   
+        $(`#${id}`).remove(); 
+        // this.list.array.forEach('id' => {
+        //  localStorage.removeItem('id')
+        // });
+            
+    
+        
     }
-   
-}
- 
+        } 
